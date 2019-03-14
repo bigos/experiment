@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+notes = [{author: 'Me', content: 'Note for me'},
+         {author: 'He', content: 'Note for Him'},
+         {author: 'Them', content: 'Note for them'}]
+notes.each{ |n| Note.create n }
