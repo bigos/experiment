@@ -2,6 +2,10 @@ module Main exposing (Model, Msg(..), main, subscriptions, update, view)
 
 import Browser exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Http
+import Json.Decode exposing (Decoder, field, string)
 
 
 
@@ -47,7 +51,7 @@ init flags =
 
 type Msg
     = Reset
-    | Foo
+    | MorePlease
 
 
 
@@ -59,7 +63,7 @@ update msg model =
         Reset ->
             ( model, Cmd.none )
 
-        Foo ->
+        MorePlease ->
             ( model, Cmd.none )
 
 
@@ -79,6 +83,10 @@ subscriptions model =
 view model =
     { title = "My first title"
     , body =
-        [ div [] [ text "hurray!!!" ]
+        [ div [] [ text "Hurrah!!!" ]
+        , div []
+            [ text "I could not load a random cat for some reason. "
+            , button [ onClick MorePlease ] [ text "Try Again!" ]
+            ]
         ]
     }
