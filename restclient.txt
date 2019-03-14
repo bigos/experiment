@@ -3,4 +3,10 @@
 # Gets  all Github APIs, formats JSON, shows response status and headers underneath.
 # Also sends a User-Agent header, because the Github API requires this.
 #
+# this example get index of notes
+
 GET http://localhost:5000/notes
+
+# get note at id 3
+
+GET http://localhost:5000/notes/3
