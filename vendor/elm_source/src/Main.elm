@@ -98,6 +98,10 @@ getNote =
         }
 
 
+
+-- DECODER
+
+
 itDecoder =
     D.map5 Note
         (field "id" int)
