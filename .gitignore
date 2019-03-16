@@ -25,3 +25,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# ignore elm compiler files
+vendor/elm_source/elm-stuff/
