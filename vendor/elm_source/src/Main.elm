@@ -5,7 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode exposing (Decoder, field, string)
+import Json.Decode as D exposing (..)
 
 
 
@@ -36,6 +36,15 @@ type alias Flags =
     ()
 
 
+type alias Note =
+    { id : Int
+    , author : String
+    , content : String
+    , created_at : String
+    , updated_at : String
+    }
+
+
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( { message = "Hi"
@@ -52,6 +61,7 @@ init flags =
 type Msg
     = Reset
     | MorePlease
+    | GotIt (Result Http.Error Note)
 
 
 
@@ -64,7 +74,37 @@ update msg model =
             ( model, Cmd.none )
 
         MorePlease ->
-            ( model, Cmd.none )
+            ( { model | code = 1, message = "test" }, getNote )
+
+        GotIt res ->
+            case res of
+                Ok gottext ->
+                    ( { model | message = Debug.toString gottext, code = 1200 }
+                    , Cmd.none
+                    )
+
+                Err a ->
+                    ( { model | message = "error >>> " ++ Debug.toString a }, Cmd.none )
+
+
+getNote =
+    let
+        myurl =
+            "http://localhost:3000/notes/3"
+    in
+    Http.get
+        { expect = Http.expectJson GotIt itDecoder
+        , url = myurl
+        }
+
+
+itDecoder =
+    D.map5 Note
+        (field "id" int)
+        (field "author" string)
+        (field "content" string)
+        (field "created_at" string)
+        (field "updated_at" string)
 
 
 
@@ -84,9 +124,8 @@ view model =
     { title = "My first title"
     , body =
         [ div [] [ text "Hurrah!!!" ]
-        , div []
-            [ text "I could not load a random cat for some reason. "
-            , button [ onClick MorePlease ] [ text "Try Again!" ]
-            ]
+        , div [] [ text <| String.fromInt model.code ]
+        , div [] [ text (Debug.toString model.message) ]
+        , div [] [ button [ onClick MorePlease ] [ text "Try Again!" ] ]
         ]
     }

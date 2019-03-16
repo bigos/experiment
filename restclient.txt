@@ -9,4 +9,4 @@ GET http://localhost:5000/notes
 
 # get note at id 3
 
-GET http://localhost:5000/notes/3
+GET http://localhost:3000/notes/3
